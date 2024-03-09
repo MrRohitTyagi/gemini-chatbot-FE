@@ -4,6 +4,7 @@ import TypingComponent from "./Typewritereffect.jsx";
 import mypic from "@/public/mypic.jpg";
 import userpic from "@/public/userimg.png";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 function getchatCss(role) {
   return `chat w-fit max-w-[80%]  p-2 text-white
@@ -59,13 +60,32 @@ const ChatsComp = ({ chats = [], isLoading }) => {
             className="h-6 w-6 border-2 border-chat-border rounded-full"
             src={mypic}
           />
-          <motion.div className={getchatCss("model")}>
-            Please Wait ...
+          <motion.div className={getchatCss("model") + "flex flex-row gap-1"}>
+            Please Wait <ThreeDots />
           </motion.div>
         </motion.div>
       )}
     </div>
   );
+};
+
+const ThreeDots = () => {
+  const [dots, setdots] = useState(".");
+  useEffect(() => {
+    const animateTyping = async () => {
+      for (let i = 0; i <= 100; i++) {
+        setdots((prev) => {
+          if (prev.length === 5) {
+            return ".";
+          }
+          return prev + ".";
+        });
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+    };
+    animateTyping();
+  }, []);
+  return dots;
 };
 
 export default ChatsComp;
