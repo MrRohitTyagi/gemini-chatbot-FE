@@ -51,11 +51,17 @@ const ChatsComp = ({ chats = [], isLoading }) => {
       })}
       {isLoading && (
         <motion.div
+          className="gap-2 flex flex-row"
           initial={{ scale: 0, x: -100 }}
           animate={{ scale: 1, x: 0 }}
-          className={getchatCss("model")}
         >
-          Loading...
+          <Image
+            className="h-6 w-6 border-2 border-chat-border rounded-full"
+            src={mypic}
+          />
+          <motion.div className={getchatCss("model")}>
+            Please Wait ...
+          </motion.div>
         </motion.div>
       )}
     </div>
