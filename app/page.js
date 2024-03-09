@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Info, SendHorizonal } from "lucide-react";
+import { Info, SendHorizonal, Trash } from "lucide-react";
 import ChatsComp from "@/components/ChatComp";
 
 import { motion } from "framer-motion";
@@ -102,6 +102,15 @@ export default function Home() {
       setisLoading(false);
     }
   };
+  function handleClear() {
+    localStorage.removeItem("chats");
+    setchats([
+      {
+        role: "model",
+        parts: "Hi i am rohit , what do you want to know ?",
+      },
+    ]);
+  }
 
   return (
     <main className="min-h-screen min-w-screen bg-main-screen">
@@ -115,36 +124,41 @@ export default function Home() {
         >
           Meet the AI incarnation of myself
         </motion.h3>
-        <Popover className="w-full">
-          <PopoverTrigger>
-            <Info size="24px" color="white" />
-          </PopoverTrigger>
-          <PopoverContent className="bg-main-screen text-white">
-            <ol className="space-y-2">
-              <li className="text-[14px]">
-                1: Knowledgeable : Equipped with information about your
-                preferences and expertise.
-              </li>
-              <li className="text-[14px]">
-                2: Contextual Understanding : Capable of interpreting questions
-                and providing relevant answers.
-              </li>
-              <li className="text-[14px]">
-                3: Reliable : Consistently delivers accurate and coherent
-                responses.
-              </li>
-              <li className="text-[14px]">
-                4: Time-saving : Handles inquiries efficiently, freeing up your
-                time for other tasks.
-              </li>
+        <div className="flex gap-4 flex-row">
+          <button onClick={handleClear}>
+            <Trash size="24px" color="white" />
+          </button>
+          <Popover className="w-full">
+            <PopoverTrigger>
+              <Info size="24px" color="white" />
+            </PopoverTrigger>
+            <PopoverContent className="bg-main-screen text-white">
+              <ol className="space-y-2">
+                <li className="text-[14px]">
+                  1: Knowledgeable : Equipped with information about my
+                  preferences and expertise.
+                </li>
+                <li className="text-[14px]">
+                  2: Contextual Understanding : Capable of interpreting
+                  questions and providing relevant answers.
+                </li>
+                <li className="text-[14px]">
+                  3: Reliable : Consistently delivers accurate and coherent
+                  responses.(sometimes not)
+                </li>
+                <li className="text-[14px]">
+                  4: Time-saving : Handles inquiries efficiently, freeing up
+                  your time for other tasks.
+                </li>
 
-              <li className="text-[14px]">
-                5: Continuously Learning : Adapts and improves over time to
-                better represent you.
-              </li>
-            </ol>
-          </PopoverContent>
-        </Popover>
+                <li className="text-[14px]">
+                  5: Continuously Learning : Adapts and improves over time to
+                  better represent you.
+                </li>
+              </ol>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
       <div ref={ref} className="h-chat-window w-full p-4 overflow-y-auto">
         <ChatsComp chats={chats} isLoading={isLoading} />

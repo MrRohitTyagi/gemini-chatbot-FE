@@ -9,10 +9,10 @@ const TypingComponent = ({ text }) => {
   useEffect(() => {
     const animateTyping = async () => {
       setisLoading(true);
-      for (let i = 0; i <= text.length; i += 2) {
+      for (let i = 0; i <= text.length; i++) {
         setDisplayedText(text.slice(0, i));
 
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        await new Promise((resolve) => setTimeout(resolve, 5));
       }
       setisLoading(false);
     };
