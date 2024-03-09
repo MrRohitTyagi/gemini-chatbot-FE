@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import TypingComponent from "./ui/typewriter-effect";
+import TypingComponent from "./Typewritereffect.jsx";
 import mypic from "@/public/mypic.jpg";
 import userpic from "@/public/userimg.png";
 import Image from "next/image";

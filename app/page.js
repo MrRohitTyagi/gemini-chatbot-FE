@@ -4,26 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Info, SendHorizonal } from "lucide-react";
 import ChatsComp from "@/components/ChatComp";
-import { mok } from "@/utils/helperFunctions";
-import mypic from "@/public/mypic.jpg";
-import Image from "next/image";
+
 import { motion } from "framer-motion";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import axios from "axios";
 
 // const baseurl = "https://gemini-chat-bot-two.vercel.app";
-const baseurl = "http://localhost:5000";
+const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
 
 async function fetchGeminiResponse(input) {
   try {
-    // const { data } = await axios.post(`${baseurl}/api/v1/getresponse`, {
-    //   prompt: input,
-    // });
-    let data = await mok(input);
-    console.log(`%c data `, "color: yellow;border:1px solid lightgreen", data);
+    const { data } = await axios.post(`${baseurl}/api/v1/getresponse`, {
+      prompt: input,
+    });
+    // let data = await mok(input);
     return data;
   } catch (error) {
     console.log("error", error);
@@ -34,11 +32,7 @@ export default function Home() {
   const [isLoading, setisLoading] = useState(true);
   const [chats, setchats] = useState([]);
   const [input, setinput] = useState("");
-  console.log(
-    `%c {isLoading,chats} `,
-    "color: white;border:3px solid white;margin:5px",
-    { isLoading, chats, input }
-  );
+
   const ref = useRef();
 
   useEffect(() => {
@@ -50,7 +44,7 @@ export default function Home() {
         });
       }, 100);
     }
-  }, [chats]);
+  }, [chats, isLoading]);
 
   useEffect(() => {
     setisLoading(true);
@@ -81,7 +75,6 @@ export default function Home() {
       }, 200);
       // let res = await mok(input);
       let res = await fetchGeminiResponse(input);
-      console.log(`%c res `, "color: pink;border:1px solid pink", res);
       let updatedchats;
       setchats((p) => {
         updatedchats = [
@@ -115,10 +108,10 @@ export default function Home() {
       <div className="h-header-box border-b-2 border-chat-border flex justify-between flex-row gap-2 items-center px-4">
         <div></div>
         <motion.h3
-          initial={{ width: "5px" }}
-          animate={{ width: "100%" }}
+          initial={{ opacity: 0, transform: "blur(2px)" }}
+          animate={{ opacity: 1, transform: "blur(0px)" }}
           transition={{ duration: 0.5 }}
-          className="text-amber-400 overflow-hidden text-nowrap text-center"
+          className="text-amber-400 "
         >
           Meet the AI incarnation of myself
         </motion.h3>

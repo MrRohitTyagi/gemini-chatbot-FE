@@ -6,12 +6,6 @@ const TypingComponent = ({ text }) => {
   const [displayedText, setDisplayedText] = useState("");
   const controls = useAnimation();
 
-  console.log(
-    `%c displayedText `,
-    "color: yellow;border:1px solid lightgreen",
-    displayedText
-  );
-
   useEffect(() => {
     const animateTyping = async () => {
       setisLoading(true);
