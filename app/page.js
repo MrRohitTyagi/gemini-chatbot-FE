@@ -15,7 +15,13 @@ import axios from "axios";
 
 // const baseurl = "https://gemini-chat-bot-two.vercel.app";
 const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
-
+const defaultmessage = [
+  {
+    role: "model",
+    parts: "Hi i am rohit , what do you want to know ?",
+  },
+];
+const preVal = sessionStorage.getItem("question") || "";
 async function fetchGeminiResponse(input) {
   try {
     const { data } = await axios.post(`${baseurl}/api/v1/getresponse`, {
@@ -31,7 +37,7 @@ async function fetchGeminiResponse(input) {
 export default function Home() {
   const [isLoading, setisLoading] = useState(true);
   const [chats, setchats] = useState([]);
-  const [input, setinput] = useState("");
+  const [input, setinput] = useState(preVal);
 
   const ref = useRef();
 
@@ -54,12 +60,7 @@ export default function Home() {
       if (prevChats) {
         setchats(JSON.parse(prevChats));
       } else {
-        setchats([
-          {
-            role: "model",
-            parts: "Hi i am rohit , what do you want to know ?",
-          },
-        ]);
+        setchats(defaultmessage);
       }
       setisLoading(false);
     }, 500);
@@ -75,7 +76,6 @@ export default function Home() {
       }, 200);
       // let res = await mok(input);
       let res = await fetchGeminiResponse(input);
-      console.log(`%c res `, "color: yellow;border:1px solid lightgreen", res);
       let updatedchats;
       const obj = { role: "model", parts: res };
       setchats((p) => {
@@ -83,6 +83,7 @@ export default function Home() {
         return [...p, obj];
       });
       setinput("");
+      sessionStorage.setItem("question", "");
       setisLoading(false);
       setTimeout(() => {
         localStorage.setItem("chats", JSON.stringify(updatedchats));
@@ -94,12 +95,7 @@ export default function Home() {
   };
   function handleClear() {
     localStorage.removeItem("chats");
-    setchats([
-      {
-        role: "model",
-        parts: "Hi i am rohit , what do you want to know ?",
-      },
-    ]);
+    setchats(defaultmessage);
   }
 
   return (
@@ -157,7 +153,10 @@ export default function Home() {
         <Input
           disabled={isLoading}
           value={input}
-          onChange={(e) => setinput(e.target.value)}
+          onChange={(e) => {
+            sessionStorage.setItem("question", e.target.value);
+            setinput(e.target.value);
+          }}
           placeholder="Send message"
           className="rounded-full"
           onKeyDown={(e) => {
