@@ -47,6 +47,7 @@ export default function Home() {
   const [input, setinput] = useState("");
 
   const ref = useRef();
+  console.log(`%c chats `, "color: yellow;border:1px solid lightgreen", chats);
 
   useEffect(() => {
     if (ref.current) {
@@ -74,6 +75,7 @@ export default function Home() {
   }, []);
 
   const handleSendMessage = async (message) => {
+    console.log("message", message);
     try {
       const question = message;
       if (!question) return;
@@ -167,7 +169,7 @@ export default function Home() {
         <Suggestions
           chats={chats}
           setchats={setchats}
-          handleSendMessage={()=>handleSendMessage(input)}
+          handleSendMessage={handleSendMessage}
         />
         <Input
           disabled={isLoading}
@@ -178,7 +180,7 @@ export default function Home() {
           placeholder="Send message"
           className="rounded-full"
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleSendMessage();
+            if (e.key === "Enter") handleSendMessage(input);
           }}
         />
         <button

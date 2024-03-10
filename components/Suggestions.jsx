@@ -12,7 +12,6 @@ const suggestions = [
 ];
 
 const Suggestions = ({ setchats, chats, handleSendMessage }) => {
-
   const [topPosition, setTopPosition] = useState("50%");
 
   useEffect(() => {
@@ -32,7 +31,9 @@ const Suggestions = ({ setchats, chats, handleSendMessage }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-if (chats.length > 2) return null;
+
+  if (chats.length > 2) return null;
+
   return (
     <div
       className={`text-white absolute gap-4 
