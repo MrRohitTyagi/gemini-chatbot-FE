@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import TypingComponent from "./Typewritereffect.jsx";
-import mypic from "@/public/mypic.jpg";
+import mypic from "@/public/mypic.png";
 import userpic from "@/public/userimg.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
         return (
           <div
             key={i}
-            className={`w-full gap-2 flex flex-row justify-${
+            className={`items-end w-full gap-2 flex flex-row justify-${
               isUserChat ? "end" : "start"
             }`}
           >

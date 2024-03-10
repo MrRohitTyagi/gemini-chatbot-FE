@@ -16,7 +16,7 @@ async function putBiodata(value) {
 
 const EditBio = () => {
   const [value, setvalue] = useState("");
-  console.log(`%c value `, "color: green;border:1px solid green", value);
+
   useEffect(() => {
     try {
       (async function () {
