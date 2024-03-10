@@ -7,30 +7,40 @@ import { Button } from "@/components/ui/button";
 const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
 
 async function getBiodata() {
-  const { data } = await axios.get(baseurl + "/api/vi/get-bio");
-  return data;
+  const { data } = await axios.get(baseurl + "/api/vi/get-summary");
+  const { instructions, summery } = data || {};
+  return { instructions, summery };
 }
-async function putBiodata(value) {
-  await axios.put(baseurl + "/api/vi/put-bio", { text: value });
+async function putSummery(summery) {
+  await axios.put(baseurl + "/api/vi/put-summery", { text: summery });
+}
+async function putInstructions(summery) {
+  await axios.put(baseurl + "/api/vi/put-instruntions", { text: summery });
 }
 
 const EditBio = () => {
-  const [value, setvalue] = useState("");
+  const [summery, setsummery] = useState("");
+  const [instruntions, setinstruntions] = useState("");
 
   useEffect(() => {
     try {
       (async function () {
         const data = await getBiodata();
-        setvalue(data);
+        console.log("data", data);
+        setsummery(data.summery);
+        setinstruntions(data.instructions);
       })();
     } catch (error) {
       console.log("error", error);
-      setvalue(null);
+      setsummery(null);
     }
   }, []);
 
-  function handleSubmit() {
-    putBiodata(value);
+  function handleSubmitsummery() {
+    putSummery(summery);
+  }
+  function handleSubmitins() {
+    putInstructions(instruntions);
   }
 
   return (
@@ -38,14 +48,29 @@ const EditBio = () => {
       <h1>Edit Bio</h1>
       <Textarea
         className="rounded m-2 border-2 border-chat-border p-4 w-[90vw] h-[80vh] bg-main-screen "
-        placeholder="Type your bio here."
-        value={value}
+        placeholder="Type your Summery here."
+        value={summery}
         onChange={(e) => {
-          setvalue(e.target.value);
+          setsummery(e.target.value);
         }}
       />
-      <Button onClick={handleSubmit} className="border-2 border-chat-border">
-        Submit
+      <Button
+        onClick={handleSubmitsummery}
+        className="border-2 border-chat-border"
+      >
+        Submit Summery
+      </Button>
+      <h1>Edit Instructions</h1>
+      <Textarea
+        className="rounded m-2 border-2 border-chat-border p-4 w-[90vw] h-[80vh] bg-main-screen "
+        placeholder="Type your Instructions here."
+        value={instruntions}
+        onChange={(e) => {
+          setinstruntions(e.target.value);
+        }}
+      />
+      <Button onClick={handleSubmitins} className="border-2 border-chat-border">
+        Submit instructions
       </Button>
       {/* <textarea className=" rounded m-2 border-2 border-chat-border p-4 w-[90vw] h-[80vh] bg-main-screen " /> */}
     </div>

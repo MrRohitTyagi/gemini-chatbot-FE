@@ -25,7 +25,7 @@ async function fetchGeminiResponse(input) {
     return data;
   } catch (error) {
     console.log("error", error);
-    return;
+    return error?.response?.data || "Something went wrong please try again";
   }
 }
 export default function Home() {
@@ -75,22 +75,12 @@ export default function Home() {
       }, 200);
       // let res = await mok(input);
       let res = await fetchGeminiResponse(input);
+      console.log(`%c res `, "color: yellow;border:1px solid lightgreen", res);
       let updatedchats;
+      const obj = { role: "model", parts: res };
       setchats((p) => {
-        updatedchats = [
-          ...p,
-          {
-            role: "model",
-            parts: res || "Something went wrong please try again",
-          },
-        ];
-        return [
-          ...p,
-          {
-            role: "model",
-            parts: res || "Something went wrong please try again",
-          },
-        ];
+        updatedchats = [...p, obj];
+        return [...p, obj];
       });
       setinput("");
       setisLoading(false);
