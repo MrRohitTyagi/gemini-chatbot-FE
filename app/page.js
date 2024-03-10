@@ -1,18 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Info, SendHorizonal, Trash } from "lucide-react";
-import ChatsComp from "@/components/ChatComp";
-
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import axios from "axios";
+
+import { Input } from "@/components/ui/input";
+import ChatsComp from "@/components/ChatComp";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import axios from "axios";
-import Suggestions from "@/components/Suggestions";
+
+const Suggestions = dynamic(() => import("@/components/Suggestions"), {
+  ssr: false,
+});
 
 // const baseurl = "https://gemini-chat-bot-two.vercel.app";
 const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
