@@ -76,23 +76,32 @@ export default function Home() {
       }, 200);
       // let res = await mok(input);
       let res = await fetchGeminiResponse(input);
+
+      const isErrorMessage =
+        (res || "").includes("GoogleGenerativeAI") ||
+        (res || "").includes("went wrong");
+
       let updatedchats;
       const obj = { role: "model", parts: res };
       setchats((p) => {
         updatedchats = [...p, obj];
         return [...p, obj];
       });
+
       setinput("");
       sessionStorage.setItem("question", "");
+
       setisLoading(false);
       setTimeout(() => {
-        localStorage.setItem("chats", JSON.stringify(updatedchats));
+        if (!isErrorMessage)
+          localStorage.setItem("chats", JSON.stringify(updatedchats));
       }, 1000);
     } catch (error) {
       console.log("error", error);
       setisLoading(false);
     }
   };
+
   function handleClear() {
     localStorage.removeItem("chats");
     setchats(defaultmessage);
