@@ -12,7 +12,7 @@ const TypingComponent = ({ text }) => {
       for (let i = 0; i <= text.length; i++) {
         setDisplayedText(text.slice(0, i));
 
-        await new Promise((resolve) => setTimeout(resolve, 5));
+        await new Promise((resolve) => setTimeout(resolve, 3));
       }
       setisLoading(false);
     };
