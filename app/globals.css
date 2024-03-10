@@ -43,7 +43,7 @@
     --radius: 0.5rem;
     --typing-box: 4rem;
     --header-box: 3rem;
-    --chat-window: calc(100vh - var(--typing-box) - var(--header-box));
+    --chat-window: calc(100vh - var(--typing-box) - var(--header-box) - 5px);
 
     --bg-global: rgb(5 15 46);
   }

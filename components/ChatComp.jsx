@@ -6,7 +6,7 @@ import userpic from "@/public/userimg.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-function getchatCss(role) {
+export function getchatCss(role) {
   return `chat w-fit max-w-[80%]  p-2 text-white
       bg-chat-bg border-2 border-chat-border
       rounded-${role}-border overflow-wrap break-words text-sm
@@ -27,6 +27,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
           >
             {!isUserChat && (
               <Image
+                alt="ME"
                 className="h-6 w-6 border-2 border-chat-border rounded-full"
                 src={mypic}
               />
@@ -43,6 +44,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
             </motion.div>
             {isUserChat && (
               <Image
+                alt="User"
                 className="h-6 w-6 border-2 border-chat-border rounded-full"
                 src={userpic}
               />
@@ -57,6 +59,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
           animate={{ scale: 1, x: 0 }}
         >
           <Image
+            alt="ME"
             className="h-6 w-6 border-2 border-chat-border rounded-full"
             src={mypic}
           />

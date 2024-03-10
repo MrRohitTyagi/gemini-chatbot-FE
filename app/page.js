@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import axios from "axios";
+import Suggestions from "@/components/Suggestions";
 
 // const baseurl = "https://gemini-chat-bot-two.vercel.app";
 const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
@@ -21,7 +22,7 @@ const defaultmessage = [
     parts: "Hi i am rohit , what do you want to know ?",
   },
 ];
-const preVal = sessionStorage.getItem("question") || "";
+
 async function fetchGeminiResponse(input) {
   try {
     const { data } = await axios.post(`${baseurl}/api/v1/getresponse`, {
@@ -31,13 +32,15 @@ async function fetchGeminiResponse(input) {
     return data;
   } catch (error) {
     console.log("error", error);
-    return error?.response?.data || "Something went wrong please try again";
+    return (
+      error?.response?.data || "Error! Something went wrong please try again"
+    );
   }
 }
 export default function Home() {
   const [isLoading, setisLoading] = useState(true);
   const [chats, setchats] = useState([]);
-  const [input, setinput] = useState(preVal);
+  const [input, setinput] = useState("");
 
   const ref = useRef();
 
@@ -68,18 +71,17 @@ export default function Home() {
 
   const handleSendMessage = async (message) => {
     try {
-      if (!input) return;
-      setchats((p) => [...p, { role: "user", parts: input }]);
+      const question = message || input;
+      if (!question) return;
+      setchats((p) => [...p, { role: "user", parts: question }]);
 
       setTimeout(() => {
         setisLoading(true);
       }, 200);
       // let res = await mok(input);
-      let res = await fetchGeminiResponse(input);
+      let res = await fetchGeminiResponse(question);
 
-      const isErrorMessage =
-        (res || "").includes("GoogleGenerativeAI") ||
-        (res || "").includes("went wrong");
+      const isErrorMessage = (res || "").includes("Error");
 
       let updatedchats;
       const obj = { role: "model", parts: res };
@@ -89,7 +91,6 @@ export default function Home() {
       });
 
       setinput("");
-      sessionStorage.setItem("question", "");
 
       setisLoading(false);
       setTimeout(() => {
@@ -115,7 +116,7 @@ export default function Home() {
           initial={{ opacity: 0, transform: "blur(2px)" }}
           animate={{ opacity: 1, transform: "blur(0px)" }}
           transition={{ duration: 0.5 }}
-          className="text-amber-400 "
+          className="text-amber-400 text-sm md:text-md lg:text-xl xl:text-2xl"
         >
           Meet the AI incarnation of myself
         </motion.h3>
@@ -159,11 +160,15 @@ export default function Home() {
         <ChatsComp chats={chats} isLoading={isLoading} />
       </div>
       <div className="h-typing-box w-full flex flex-row gap-3 items-center px-2 py-5">
+        <Suggestions
+          chats={chats}
+          setchats={setchats}
+          handleSendMessage={handleSendMessage}
+        />
         <Input
           disabled={isLoading}
           value={input}
           onChange={(e) => {
-            sessionStorage.setItem("question", e.target.value);
             setinput(e.target.value);
           }}
           placeholder="Send message"

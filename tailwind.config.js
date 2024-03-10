@@ -11,6 +11,7 @@ module.exports = {
   safelist: [
     "rounded-user-border",
     "rounded-model-border",
+    "rounded-suggestion-border",
     "justify-end",
     "justify-start",
   ],
@@ -76,6 +77,7 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
         "user-border": "15px 15px 1px 15px",
         "model-border": "15px 15px 15px 1px",
+        "suggestion-border": "15px 15px 15px 15px",
       },
       keyframes: {
         "accordion-down": {
