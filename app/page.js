@@ -75,7 +75,7 @@ export default function Home() {
 
   const handleSendMessage = async (message) => {
     try {
-      const question = message || input;
+      const question = message;
       if (!question) return;
       setchats((p) => [...p, { role: "user", parts: question }]);
 
@@ -167,7 +167,7 @@ export default function Home() {
         <Suggestions
           chats={chats}
           setchats={setchats}
-          handleSendMessage={handleSendMessage}
+          handleSendMessage={()=>handleSendMessage(input)}
         />
         <Input
           disabled={isLoading}
