@@ -33,14 +33,20 @@ const ChatsComp = ({ chats = [], isLoading }) => {
               />
             )}
             <motion.div
-              initial={{ scale: 0.5, x: -100, opacity: 0 }}
-              animate={{ scale: 1, x: 0, opacity: 1 }}
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               className={
                 getchatCss(chat.role) + "drop-shadow-lg shadow-violet-700"
               }
             >
               {/* {chat.parts} */}
-              {isUserChat ? chat.parts : <TypingComponent text={chat.parts} />}
+              {isUserChat ? (
+                chat.parts
+              ) : chat.isStored ? (
+                chat.parts
+              ) : (
+                <TypingComponent text={chat.parts} />
+              )}
             </motion.div>
             {isUserChat && (
               <Image

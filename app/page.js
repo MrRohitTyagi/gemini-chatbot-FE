@@ -65,7 +65,7 @@ export default function Home() {
 
     setTimeout(() => {
       if (prevChats) {
-        setchats(JSON.parse(prevChats));
+        setchats(JSON.parse(prevChats).map((c) => ({ ...c, isStored: true })));
       } else {
         setchats(defaultmessage);
       }
