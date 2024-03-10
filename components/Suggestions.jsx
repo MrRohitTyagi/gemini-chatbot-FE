@@ -12,8 +12,6 @@ const suggestions = [
 ];
 
 const Suggestions = ({ setchats, chats, handleSendMessage }) => {
-    if (chats.length > 2) return null;
-  const isMobile = window.innerWidth < 768;
 
   const [topPosition, setTopPosition] = useState("50%");
 
@@ -34,7 +32,7 @@ const Suggestions = ({ setchats, chats, handleSendMessage }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+if (chats.length > 2) return null;
   return (
     <div
       className={`text-white absolute gap-4 
