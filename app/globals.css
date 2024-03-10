@@ -9,6 +9,7 @@
 *::-webkit-scrollbar {
   width: 5px;
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -43,6 +44,8 @@
     --typing-box: 4rem;
     --header-box: 3rem;
     --chat-window: calc(100vh - var(--typing-box) - var(--header-box));
+
+    --bg-global: rgb(5 15 46);
   }
 
   .dark {
@@ -75,7 +78,12 @@
     --ring: 212.7 26.8% 83.9%;
   }
 }
-
+html {
+  background-color: var(--bg-global);
+}
+body {
+  background-color: var(--bg-global);
+}
 @layer base {
   * {
     @apply border-border;

@@ -27,7 +27,7 @@ module.exports = {
         "chat-border": "rgb(109 60 221)",
       },
       backgroundColor: {
-        "main-screen": "rgb(5 15 46);",
+        "main-screen": "var(--bg-global)",
         "chat-bg": "#492E87",
       },
       height: {
