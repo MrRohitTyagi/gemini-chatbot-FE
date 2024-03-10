@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getchatCss } from "./ChatComp";
 import { motion } from "framer-motion";
 
@@ -15,14 +15,35 @@ const Suggestions = ({ setchats, chats, handleSendMessage }) => {
   //   if (chats.length > 3) return null;
   const isMobile = window.innerWidth < 768;
 
+  const [topPosition, setTopPosition] = useState("50%");
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768; // Adjust threshold as needed
+      setTopPosition(isMobile ? "50%" : "75%");
+    };
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize initially to set initial state
+    handleResize();
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div
       className={`text-white absolute gap-4 
     flex flex-row flex-wrap w-[95vw] left-1
        p-6 items-center justify-center
-     ${isMobile ? "top-1/2" : "top-3/4"}       
+     top-[${topPosition}]       
   `}
     >
+      {/* <div className="top-[50%] top-[75%]"></div> */}
       {suggestions.map((sug, index) => (
         <motion.button
           initial={{ scale: 0, y: -100 }}
