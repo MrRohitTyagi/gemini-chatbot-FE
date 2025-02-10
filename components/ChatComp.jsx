@@ -59,7 +59,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
           </div>
         );
       })}
-      {!isLoading && (
+      {isLoading && (
         <motion.div
           className="gap-2 flex flex-row items-end "
           initial={{ scale: 0, x: -100 }}

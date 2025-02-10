@@ -84,11 +84,3 @@ html {
 body {
   background-color: var(--bg-global);
 }
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
