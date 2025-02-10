@@ -29,7 +29,6 @@ export default function Home() {
   const [input, setinput] = useState("");
 
   const ref = useRef();
-  console.log(`%c chats `, "color: yellow;border:1px solid lightgreen", chats);
 
   useEffect(() => {
     if (ref.current) {
