@@ -5,6 +5,7 @@ import mypic from "@/public/mypic.png";
 import userpic from "@/public/userimg.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Spinner from "./Spinner/Spinner.jsx";
 
 export function getchatCss(role) {
   return `chat w-fit max-w-[80%]  p-2 text-white
@@ -58,7 +59,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
           </div>
         );
       })}
-      {isLoading && (
+      {!isLoading && (
         <motion.div
           className="gap-2 flex flex-row items-end "
           initial={{ scale: 0, x: -100 }}
@@ -70,7 +71,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
             src={mypic}
           />
           <motion.div className={getchatCss("model") + "flex flex-row gap-1"}>
-            Please Wait <ThreeDots />
+            Please Wait <Spinner style={{ height: "20px", width: "15px" }} />
           </motion.div>
         </motion.div>
       )}

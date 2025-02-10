@@ -1,25 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Info, SendHorizonal, Trash } from "lucide-react";
+import { SendHorizonal, Trash } from "lucide-react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import axios from "axios";
 
 import { Input } from "@/components/ui/input";
 import ChatsComp from "@/components/ChatComp";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
+import InfoIcon from "@/components/InfoIcon";
+import { fetchGeminiResponse } from "@/controllers/geminiResponse";
 
 const Suggestions = dynamic(() => import("@/components/Suggestions"), {
   ssr: false,
 });
 
 // const baseurl = "https://gemini-chat-bot-two.vercel.app";
-const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
 const defaultmessage = [
   {
     role: "model",
@@ -27,20 +23,6 @@ const defaultmessage = [
   },
 ];
 
-async function fetchGeminiResponse(input) {
-  try {
-    const { data } = await axios.post(`${baseurl}/api/v1/getresponse`, {
-      prompt: input,
-    });
-    // let data = await mok(input);
-    return data;
-  } catch (error) {
-    console.log("error", error);
-    return (
-      error?.response?.data || "Error! Something went wrong please try again"
-    );
-  }
-}
 export default function Home() {
   const [isLoading, setisLoading] = useState(true);
   const [chats, setchats] = useState([]);
@@ -130,36 +112,7 @@ export default function Home() {
           <button onClick={handleClear}>
             <Trash size="24px" color="white" />
           </button>
-          <Popover className="w-full">
-            <PopoverTrigger>
-              <Info size="24px" color="white" />
-            </PopoverTrigger>
-            <PopoverContent className="bg-main-screen text-white">
-              <ol className="space-y-2">
-                <li className="text-[14px]">
-                  1: Knowledgeable : Equipped with information about my
-                  preferences and expertise.
-                </li>
-                <li className="text-[14px]">
-                  2: Contextual Understanding : Capable of interpreting
-                  questions and providing relevant answers.
-                </li>
-                <li className="text-[14px]">
-                  3: Reliable : Consistently delivers accurate and coherent
-                  responses.(sometimes not)
-                </li>
-                <li className="text-[14px]">
-                  4: Time-saving : Handles inquiries efficiently, freeing up
-                  your time for other tasks.
-                </li>
-
-                <li className="text-[14px]">
-                  5: Continuously Learning : Adapts and improves over time to
-                  better represent you.
-                </li>
-              </ol>
-            </PopoverContent>
-          </Popover>
+          <InfoIcon />
         </div>
       </div>
       <div ref={ref} className="h-chat-window w-full p-4 overflow-y-auto">

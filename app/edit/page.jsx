@@ -7,15 +7,15 @@ import { Button } from "@/components/ui/button";
 const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
 
 async function getBiodata() {
-  const { data } = await axios.get(baseurl + "/api/vi/get-summary");
+  const { data } = await axios.get(baseurl + "/api/v1/get-summary");
   const { instructions, summery } = data || {};
   return { instructions, summery };
 }
 async function putSummery(summery) {
-  await axios.put(baseurl + "/api/vi/put-summery", { text: summery });
+  await axios.put(baseurl + "/api/v1/put-summery", { text: summery });
 }
 async function putInstructions(summery) {
-  await axios.put(baseurl + "/api/vi/put-instruntions", { text: summery });
+  await axios.put(baseurl + "/api/v1/put-instruntions", { text: summery });
 }
 
 const EditBio = () => {
