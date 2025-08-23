@@ -60,6 +60,7 @@ export default function Home() {
     try {
       const question = message;
       if (!question) return;
+
       setchats((p) => [...p, { role: "user", parts: question }]);
 
       setTimeout(() => {
@@ -67,6 +68,7 @@ export default function Home() {
       }, 200);
       // let res = await mok(input);
       let res = await fetchGeminiResponse(question);
+      console.log(`%c data `, "color: yellow;border:1px solid lightgreen", res);
 
       const isErrorMessage = (res || "").includes("Error");
 

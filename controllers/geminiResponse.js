@@ -1,14 +1,15 @@
 import axios from "axios";
 
-const baseurl = process.env.NEXT_PUBLIC_BE_BASE_URL;
+const baseUrl = process.env.NEXT_PUBLIC_BE_BASE_URL;
+const apiVersion = process.env.NEXT_PUBLIC_API_VERSION;
 
 export async function fetchGeminiResponse(input) {
   try {
-    const { data } = await axios.post(`${baseurl}/api/v2/getresponse`, {
+    const { data } = await axios.post(`${baseUrl}/${apiVersion}/response`, {
       prompt: input,
     });
-    // let data = await mok(input);
-    return data;
+
+    return data.response;
   } catch (error) {
     console.log("error", error);
     return (
