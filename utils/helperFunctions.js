@@ -1,7 +1,9 @@
-export async function mok(input) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("THIS is a rendomm message form chat app" + input);
-    }, 1000);
-  });
+export function getStoredChats() {
+  const chats = localStorage.getItem("chats");
+  try {
+    return JSON.parse(chats);
+  } catch (e) {
+    console.error("Error parsing stored chats:", e);
+    return [];
+  }
 }

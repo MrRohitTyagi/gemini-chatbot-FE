@@ -17,3 +17,13 @@ export async function fetchGeminiResponse(input) {
     );
   }
 }
+
+export async function checkAvailability() {
+  try {
+    const { data } = await axios.get(`${baseUrl}/${apiVersion}/online`);
+    return data.response;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+}

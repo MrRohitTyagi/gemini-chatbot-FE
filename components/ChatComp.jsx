@@ -15,6 +15,7 @@ export function getchatCss(role) {
 }
 
 const ChatsComp = ({ chats = [], isLoading }) => {
+  console.log('chats',chats)
   return (
     <div className="flex flex-col gap-2">
       {chats.map((chat, i) => {
@@ -34,8 +35,6 @@ const ChatsComp = ({ chats = [], isLoading }) => {
               />
             )}
             <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
               className={
                 getchatCss(chat.role) + "drop-shadow-lg shadow-violet-700"
               }
