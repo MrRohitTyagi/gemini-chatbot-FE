@@ -1,3 +1,5 @@
+"use clients";
+
 export function getStoredChats() {
   const chats = localStorage.getItem("chats");
   try {

@@ -5,10 +5,10 @@ import { getchatCss } from "./ChatComp";
 import { motion } from "framer-motion";
 
 const suggestions = [
-  "Hi!, How are you ?",
-  "What are your Hobbies ?",
-  "What are your skills ?",
-  "What is your notice period ?",
+  "Hi!, How are you?",
+  "What is your current company?",
+  "What are your skills?",
+  "What is your notice period?",
 ];
 
 const Suggestions = ({ setchats, chats, handleSendMessage }) => {
