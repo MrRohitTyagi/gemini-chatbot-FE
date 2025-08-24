@@ -14,8 +14,7 @@ export function getchatCss(role) {
       `;
 }
 
-const ChatsComp = ({ chats = [], isLoading }) => {
-  console.log("chats", chats);
+const ChatsComp = ({ chats = [], isLoading, onTyping }) => {
   return (
     <div className="flex flex-col gap-2">
       {chats.map((chat, i) => {
@@ -45,7 +44,7 @@ const ChatsComp = ({ chats = [], isLoading }) => {
               ) : chat.isStored ? (
                 chat.parts
               ) : (
-                <TypingComponent text={chat.parts} />
+                <TypingComponent text={chat.parts} onTyping={onTyping} />
               )}
             </motion.div>
             {isUserChat && (

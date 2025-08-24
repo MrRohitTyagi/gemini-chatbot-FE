@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SendHorizonal, Trash } from "lucide-react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -32,15 +32,27 @@ export default function Home() {
 
   const ref = useRef();
 
+  const scrollToBottom = useCallback(() => {
+    ref.current.scroll({
+      top: ref.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [ref]);
+
+  const onTyping = useCallback(() => {
+    scrollToBottom();
+  }, []);
+
   useEffect(() => {
+    let id;
     if (ref.current) {
-      setTimeout(() => {
-        ref.current.scroll({
-          top: ref.current.scrollHeight,
-          behavior: "smooth",
-        });
-      }, 100);
+      id = setTimeout(() => {
+        scrollToBottom();
+      }, 200);
     }
+    return () => {
+      clearInterval(id);
+    };
   }, [chats, isLoading]);
 
   useEffect(() => {
@@ -68,7 +80,11 @@ export default function Home() {
         setisLoading(true);
       }, 200);
       // let res = await mok(input);
-      let res = await fetchGeminiResponse(question);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 200);
+
+      let res = await fetchGeminiResponse(question, chats);
       console.log(`%c data `, "color: yellow;border:1px solid lightgreen", res);
 
       const isErrorMessage = (res || "").includes("Error");
@@ -103,7 +119,7 @@ export default function Home() {
       className="min-h-screen min-w-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative"
       style={{
         display: "grid",
-        gridTemplateRows: "auto 1fr auto",
+        gridTemplateRows: "4rem calc(100vh - (4rem + 5rem)) 5rem",
       }}
     >
       {/* Suggestions Component */}
@@ -154,9 +170,9 @@ export default function Home() {
       {/* Chat Window */}
       <div
         ref={ref}
-        className="chat-container relative w-full mx-auto px-4 pt-4 overflow-y-auto custom-scrollbar"
+        className="chat-container relative w-full mx-auto p-4 overflow-y-auto custom-scrollbar"
       >
-        <ChatsComp chats={chats} isLoading={isLoading} />
+        <ChatsComp chats={chats} isLoading={isLoading} onTyping={onTyping} />
       </div>
 
       {/* Input Area */}
