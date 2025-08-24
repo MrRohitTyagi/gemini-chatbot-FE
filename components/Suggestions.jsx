@@ -12,11 +12,11 @@ const suggestions = [
 ];
 
 const Suggestions = ({ setchats, chats, handleSendMessage }) => {
-  if (chats.length > 2) return null;
+  if (chats.length > 3) return null;
 
   return (
     <div
-      className={`text-white absolute gap-4 
+      className={`text-white absolute gap-4  w-full
     flex flex-row flex-wrap bottom-[5rem]
        p-6 items-center justify-center z-10`}
     >

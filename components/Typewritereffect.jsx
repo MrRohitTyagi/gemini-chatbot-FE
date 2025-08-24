@@ -1,32 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-const TypingComponent = ({ text }) => {
-  const [isLoading, setisLoading] = useState(false);
+const TypingComponent = ({ text, speed = 10, className = "" }) => {
   const [displayedText, setDisplayedText] = useState("");
-  const controls = useAnimation();
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
+    setDisplayedText("");
+    setIsComplete(false);
+    
     const animateTyping = async () => {
-      setisLoading(true);
       for (let i = 0; i <= text.length; i++) {
         setDisplayedText(text.slice(0, i));
-
-        await new Promise((resolve) => setTimeout(resolve, 3));
+        
+        if (i === text.length) {
+          setIsComplete(true);
+        }
+        
+        await new Promise((resolve) => setTimeout(resolve, speed));
       }
-      setisLoading(false);
     };
-    animateTyping();
-  }, [text]);
+    
+    if (text) animateTyping();
+  }, [text, speed]);
 
   return (
-    <div>
-      <motion.span
-        className={isLoading ? "animate-pulse" : "" +" text-[12px]"}
-        animate={controls}
-      >
+    <div className="relative inline-block">
+      <span className={className}>
         {displayedText}
-      </motion.span>
+      </span>
+      
+      {/* Simple cursor */}
+      <AnimatePresence>
+        {!isComplete && (
+          <motion.span
+            animate={{ opacity: [1, 0, 1] }}
+            transition={{ 
+              duration: 1,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="inline-block ml-[1px] w-[2px] h-[1em] bg-current"
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
