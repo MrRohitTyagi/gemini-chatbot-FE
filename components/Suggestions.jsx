@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { getchatCss } from "./ChatComp";
 import { motion } from "framer-motion";
 
@@ -18,7 +18,7 @@ const Suggestions = ({ setchats, chats, handleSendMessage }) => {
     <div
       className={`text-white absolute gap-4 
     flex flex-row flex-wrap bottom-[5rem]
-       p-6 items-center justify-center `}
+       p-6 items-center justify-center z-10`}
     >
       {suggestions.map((sug, index) => (
         <motion.button

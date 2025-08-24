@@ -22,7 +22,7 @@ const TypingComponent = ({ text }) => {
   return (
     <div>
       <motion.span
-        className={isLoading ? "animate-pulse" : ""}
+        className={isLoading ? "animate-pulse" : "" +" text-[12px]"}
         animate={controls}
       >
         {displayedText}

@@ -10,12 +10,12 @@ import Spinner from "./Spinner/Spinner.jsx";
 export function getchatCss(role) {
   return `chat w-fit max-w-[80%]  p-2 text-white
       bg-chat-bg border-2 border-chat-border
-      rounded-${role}-border overflow-wrap break-words text-sm
+      rounded-${role}-border overflow-wrap break-words  text-[12px]
       `;
 }
 
 const ChatsComp = ({ chats = [], isLoading }) => {
-  console.log('chats',chats)
+  console.log("chats", chats);
   return (
     <div className="flex flex-col gap-2">
       {chats.map((chat, i) => {
@@ -76,25 +76,6 @@ const ChatsComp = ({ chats = [], isLoading }) => {
       )}
     </div>
   );
-};
-
-const ThreeDots = () => {
-  const [dots, setdots] = useState(".");
-  useEffect(() => {
-    const animateTyping = async () => {
-      for (let i = 0; i <= 100; i++) {
-        setdots((prev) => {
-          if (prev.length === 5) {
-            return ".";
-          }
-          return prev + ".";
-        });
-        await new Promise((resolve) => setTimeout(resolve, 200));
-      }
-    };
-    animateTyping();
-  }, []);
-  return dots;
 };
 
 export default ChatsComp;
