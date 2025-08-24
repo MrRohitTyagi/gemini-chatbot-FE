@@ -126,17 +126,13 @@ export default function Home() {
         <div className="h-16 flex justify-between items-center px-6 max-w-6xl mx-auto">
           <div className="flex items-center space-x-3">
             <BotOnline />
-            <div className="hidden sm:block w-px h-6 bg-white/20"></div>
-            <span className="hidden sm:block text-white/60 text-sm font-medium">
-              AI Assistant
-            </span>
           </div>
 
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-transparent bg-gradient-to-r from-amber-400 via-purple-400 to-pink-400 bg-clip-text text-lg md:text-xl lg:text-2xl font-bold text-center flex-1"
+            className="text-transparent bg-gradient-to-r from-amber-400 via-purple-400 to-pink-400 bg-clip-text text-md md:text-xl lg:text-2xl font-bold text-center flex-1"
           >
             Meet the AI incarnation of myself
           </motion.h1>
