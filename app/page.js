@@ -140,7 +140,7 @@ export default function Home() {
         className="relative backdrop-blur-md bg-white/5 border-b border-white/10 shadow-lg"
       >
         <div className="h-16 flex justify-between items-center px-6 max-w-6xl mx-auto">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 pl-4">
             <BotOnline />
           </div>
 
