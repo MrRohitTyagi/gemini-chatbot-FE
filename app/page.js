@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SendHorizonal, Trash, CheckCircle } from "lucide-react";
+import { SendHorizonal, Trash } from "lucide-react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 
@@ -11,7 +11,7 @@ import ChatsComp from "@/components/ChatComp";
 import InfoIcon from "@/components/InfoIcon";
 import { fetchGeminiResponse } from "@/controllers/geminiResponse";
 import BotOnline from "@/components/BotOnline";
-import { generateToken, getStoredChats, getToken } from "@/utils/helperFunctions";
+import { getStoredChats } from "@/utils/helperFunctions";
 
 const Suggestions = dynamic(() => import("@/components/Suggestions"), {
   ssr: false,
@@ -24,8 +24,6 @@ const defaultmessage = [
     parts: "Hi i am rohit , what do you want to know ?",
   },
 ];
-
-const prevChats = getStoredChats();
 
 export default function Home() {
   const [isLoading, setisLoading] = useState(false);
@@ -46,6 +44,8 @@ export default function Home() {
   }, [chats, isLoading]);
 
   useEffect(() => {
+    const prevChats = getStoredChats();
+
     if (!prevChats) {
       setchats(defaultmessage);
       return;
