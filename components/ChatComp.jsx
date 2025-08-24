@@ -6,6 +6,7 @@ import userpic from "@/public/userimg.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner/Spinner.jsx";
+import { commonChatCss } from "@/constants.js";
 
 export function getchatCss(role) {
   return `chat w-fit max-w-[80%]  p-2 text-white
@@ -40,9 +41,19 @@ const ChatsComp = ({ chats = [], isLoading, onTyping }) => {
             >
               {/* {chat.parts} */}
               {isUserChat ? (
-                chat.parts
+                <span
+                  style={commonChatCss}
+                  dangerouslySetInnerHTML={{
+                    __html: chat.parts,
+                  }}
+                />
               ) : chat.isStored ? (
-                chat.parts
+                <span
+                  style={commonChatCss}
+                  dangerouslySetInnerHTML={{
+                    __html: chat.parts,
+                  }}
+                />
               ) : (
                 <TypingComponent text={chat.parts} onTyping={onTyping} />
               )}

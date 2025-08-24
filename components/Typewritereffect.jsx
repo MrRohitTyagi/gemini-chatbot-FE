@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { commonChatCss } from "@/constants";
 
 const TypingComponent = ({ text, speed = 10, className = "", onTyping }) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -59,6 +60,17 @@ const TypingComponent = ({ text, speed = 10, className = "", onTyping }) => {
       throttleRef.current = null;
     };
   }, [text, speed, onTyping, throttle]);
+
+  return (
+    <div className="relative inline-block" style={commonChatCss}>
+      <span
+        className={className}
+        dangerouslySetInnerHTML={{
+          __html: text,
+        }}
+      />
+    </div>
+  );
 
   return (
     <div className="relative inline-block">
