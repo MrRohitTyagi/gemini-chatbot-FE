@@ -84,7 +84,7 @@ export default function Home() {
         scrollToBottom();
       }, 200);
 
-      let res = await fetchGeminiResponse(question, chats); 
+      let res = await fetchGeminiResponse(question, chats);
       console.log(`%c data `, "color: yellow;border:1px solid lightgreen", res);
 
       const isErrorMessage = (res || "").includes("Error");
@@ -186,7 +186,12 @@ export default function Home() {
           <div className="flex items-center space-x-3">
             <div className="flex-1 relative">
               <Input
-                // disabled={isLoading}
+                disabled={isLoading}
+                ref={(el) => {
+                  if (el) {
+                    el.focus();
+                  }
+                }}
                 value={input}
                 onChange={(e) => setinput(e.target.value)}
                 placeholder="Type your message..."
