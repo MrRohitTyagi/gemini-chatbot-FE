@@ -26,8 +26,8 @@ const defaultmessage = [
 ];
 
 export default function Home() {
-  const [isLoading, setisLoading] = useState(false);
-  const [chats, setchats] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [chats, setChats] = useState([]);
   const [input, setinput] = useState("");
 
   const ref = useRef();
@@ -59,13 +59,13 @@ export default function Home() {
     const prevChats = getStoredChats();
 
     if (!prevChats) {
-      setchats(defaultmessage);
+      setChats(defaultmessage);
       return;
     }
 
-    setchats(prevChats.map((c) => ({ ...c, isStored: true })));
+    setChats(prevChats.map((c) => ({ ...c, isStored: true })));
 
-    setisLoading(false);
+    setIsLoading(false);
   }, []);
 
   const handleSendMessage = async (message) => {
@@ -74,15 +74,14 @@ export default function Home() {
       const question = message;
       if (!question) return;
 
-      setchats((p) => [...p, { role: "user", parts: question }]);
+      setChats((p) => [...p, { role: "user", parts: question }]);
 
-      setTimeout(() => {
-        setisLoading(true);
-      }, 200);
+      setIsLoading(true);
+
       // let res = await mok(input);
       setTimeout(() => {
         scrollToBottom();
-      }, 200);
+      }, 10);
 
       let res = await fetchGeminiResponse(question, chats);
       console.log(`%c data `, "color: yellow;border:1px solid lightgreen", res);
@@ -91,28 +90,39 @@ export default function Home() {
 
       let updatedchats;
       const obj = { role: "model", parts: res };
-      setchats((p) => {
+      setChats((p) => {
         updatedchats = [...p, obj];
         return [...p, obj];
       });
 
       setinput("");
 
-      setisLoading(false);
+      setIsLoading(false);
       setTimeout(() => {
         if (!isErrorMessage)
           localStorage.setItem("chats", JSON.stringify(updatedchats));
       }, 1000);
     } catch (error) {
       console.log("error", error);
-      setisLoading(false);
+      setTimeout(() => {
+        setChats((p) => {
+          return p.slice(0, -1);
+        });
+        setIsLoading(false);
+        alert(error.message || "Something went wrong");
+      }, 500);
     }
   };
 
   function handleClear() {
     localStorage.removeItem("chats");
-    setchats(defaultmessage);
+    setChats(defaultmessage);
   }
+
+  console.log(`%c {isLoading} `, "color: yellow;border:1px solid lightgreen", {
+    isLoading,
+    chats,
+  });
 
   return (
     <main
@@ -126,7 +136,7 @@ export default function Home() {
       {!isLoading && (
         <Suggestions
           chats={chats}
-          setchats={setchats}
+          setChats={setChats}
           handleSendMessage={handleSendMessage}
         />
       )}
@@ -139,28 +149,28 @@ export default function Home() {
         transition={{ duration: 0.6 }}
         className="relative backdrop-blur-md bg-white/5 border-b border-white/10 shadow-lg"
       >
-        <div className="h-16 flex justify-between items-center px-6 max-w-6xl mx-auto">
-          <div className="flex items-center space-x-3 pl-4">
+        <div className="h-16 flex justify-between items-center px-3 sm:px-6 max-w-6xl mx-auto">
+          <div className="flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-4">
             <BotOnline />
           </div>
 
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-transparent bg-gradient-to-r from-amber-400 via-purple-400 to-pink-400 bg-clip-text text-md md:text-xl lg:text-2xl font-bold text-center flex-1"
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="text-transparent bg-gradient-to-r from-amber-400 via-purple-400 to-pink-400 bg-clip-text text-xs xs:text-sm sm:text-md md:text-xl lg:text-2xl font-bold text-center flex-1 px-2 sm:px-4 leading-tight"
           >
             Meet the AI incarnation of myself
           </motion.h1>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleClear}
-              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200"
+              className="p-1.5 sm:p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200"
             >
-              <Trash size="18px" className="text-white/80" />
+              <Trash size="16px" className="sm:w-[18px] sm:h-[18px] text-white/80" />
             </motion.button>
             <InfoIcon />
           </div>
@@ -176,12 +186,7 @@ export default function Home() {
       </div>
 
       {/* Input Area */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="backdrop-blur-md bg-white/5 border-t border-white/10"
-      >
+      <motion.div className="backdrop-blur-md bg-white/5 border-t border-white/10">
         <div className="max-w-4xl mx-auto p-4 space-y-4">
           <div className="flex items-center space-x-3">
             <div className="flex-1 relative">
