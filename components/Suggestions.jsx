@@ -12,37 +12,14 @@ const suggestions = [
 ];
 
 const Suggestions = ({ setchats, chats, handleSendMessage }) => {
-  const [topPosition, setTopPosition] = useState("50%");
-
-  useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth < 768; // Adjust threshold as needed
-      setTopPosition(isMobile ? "50%" : "75%");
-    };
-
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
-
-    // Call handleResize initially to set initial state
-    handleResize();
-
-    // Cleanup function
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   if (chats.length > 2) return null;
 
   return (
     <div
       className={`text-white absolute gap-4 
-    flex flex-row flex-wrap w-[95vw] left-1
-       p-6 items-center justify-center
-     top-[${topPosition}]       
-  `}
+    flex flex-row flex-wrap bottom-[5rem]
+       p-6 items-center justify-center `}
     >
-      {/* <div className="top-[50%] top-[75%]"></div> */}
       {suggestions.map((sug, index) => (
         <motion.button
           initial={{ scale: 0, y: -100 }}

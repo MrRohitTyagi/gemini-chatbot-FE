@@ -99,57 +99,103 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen min-w-screen bg-main-screen">
-      <div className="h-header-box border-b-2 border-chat-border flex justify-between flex-row gap-2 items-center px-4">
-        <div>
-          <BotOnline />
+    <main
+      className="min-h-screen min-w-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative"
+      style={{
+        display: "grid",
+        gridTemplateRows: "auto 1fr auto",
+      }}
+    >
+      {/* Suggestions Component */}
+      {!isLoading && (
+        <Suggestions
+          chats={chats}
+          setchats={setchats}
+          handleSendMessage={handleSendMessage}
+        />
+      )}
+
+      {/* Background pattern */}
+
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative backdrop-blur-md bg-white/5 border-b border-white/10 shadow-lg"
+      >
+        <div className="h-16 flex justify-between items-center px-6 max-w-6xl mx-auto">
+          <div className="flex items-center space-x-3">
+            <BotOnline />
+            <div className="hidden sm:block w-px h-6 bg-white/20"></div>
+            <span className="hidden sm:block text-white/60 text-sm font-medium">
+              AI Assistant
+            </span>
+          </div>
+
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-transparent bg-gradient-to-r from-amber-400 via-purple-400 to-pink-400 bg-clip-text text-lg md:text-xl lg:text-2xl font-bold text-center flex-1"
+          >
+            Meet the AI incarnation of myself
+          </motion.h1>
+
+          <div className="flex items-center space-x-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleClear}
+              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200"
+            >
+              <Trash size="18px" className="text-white/80" />
+            </motion.button>
+            <InfoIcon />
+          </div>
         </div>
-        <motion.h3
-          initial={{ opacity: 0, transform: "blur(2px)" }}
-          animate={{ opacity: 1, transform: "blur(0px)" }}
-          transition={{ duration: 0.5 }}
-          className="text-amber-400 text-sm md:text-md lg:text-xl xl:text-2xl"
-        >
-          Meet the AI incarnation of myself
-        </motion.h3>
-        <div className="flex gap-4 flex-row">
-          <button onClick={handleClear}>
-            <Trash size="24px" color="white" />
-          </button>
-          <InfoIcon />
-        </div>
-      </div>
-      <div ref={ref} className="h-chat-window w-full p-4 overflow-y-auto">
+      </motion.div>
+
+      {/* Chat Window */}
+      <div
+        ref={ref}
+        className="chat-container relative w-full mx-auto px-4 pt-4 overflow-y-auto custom-scrollbar"
+      >
         <ChatsComp chats={chats} isLoading={isLoading} />
       </div>
-      <div className="h-typing-box w-full flex flex-row gap-3 items-center px-2 py-5">
-        {!isLoading && (
-          <Suggestions
-            chats={chats}
-            setchats={setchats}
-            handleSendMessage={handleSendMessage}
-          />
-        )}
-        <Input
-          disabled={isLoading}
-          value={input}
-          onChange={(e) => {
-            setinput(e.target.value);
-          }}
-          placeholder="Send message"
-          className="rounded-full"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSendMessage(input);
-          }}
-        />
-        <button
-          disabled={isLoading}
-          onClick={handleSendMessage}
-          className="send-logo border-2 p-2 rounded-full flex flex-row justify-center items-center"
-        >
-          <SendHorizonal size="20px" color="white" />
-        </button>
-      </div>
+
+      {/* Input Area */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="backdrop-blur-md bg-white/5 border-t border-white/10"
+      >
+        <div className="max-w-4xl mx-auto p-4 space-y-4">
+          <div className="flex items-center space-x-3">
+            <div className="flex-1 relative">
+              <Input
+                disabled={isLoading}
+                value={input}
+                onChange={(e) => setinput(e.target.value)}
+                placeholder="Type your message..."
+                className="pr-12 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:bg-white/15 focus:border-purple-400/50 transition-all duration-200"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSendMessage(input);
+                }}
+              />
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={isLoading}
+              onClick={() => handleSendMessage(input)}
+              className="p-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg transition-all duration-200"
+            >
+              <SendHorizonal size="20px" className="text-white" />
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
     </main>
   );
 }
