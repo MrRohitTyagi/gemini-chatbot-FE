@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 import { Input } from "@/components/ui/input";
 import ChatsComp from "@/components/ChatComp";
-
+import Image from "next/image";
 import InfoIcon from "@/components/InfoIcon";
 import { fetchGeminiResponse } from "@/controllers/geminiResponse";
 import BotOnline from "@/components/BotOnline";
@@ -46,7 +46,7 @@ export default function Home() {
 
   const onTyping = useCallback(() => {
     scrollToBottom();
-  }, []);
+  }, [scrollToBottom]);
 
   useEffect(() => {
     let id;
@@ -58,7 +58,7 @@ export default function Home() {
     return () => {
       clearInterval(id);
     };
-  }, [chats, isLoading]);
+  }, [chats, isLoading, scrollToBottom]);
 
   useEffect(() => {
     const prevChats = getStoredChats();
@@ -151,12 +151,18 @@ export default function Home() {
         >
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <motion.img
+              <motion.div
                 whileHover={{ scale: 1.05 }}
-                src="/mypic.png"
-                alt="Rohit"
-                className="w-10 h-10 rounded-full border-2 border-blue-400/50 shadow-lg"
-              />
+                className="relative w-10 h-10"
+              >
+                <Image
+                  src="/mypic.png"
+                  alt="Rohit"
+                  width={40}
+                  height={40}
+                  className="rounded-full border-2 border-blue-400/50 shadow-lg object-cover"
+                />
+              </motion.div>
               <div className="absolute -bottom-1 -right-1">
                 <BotOnline />
               </div>
@@ -193,9 +199,17 @@ export default function Home() {
                 className="flex flex-col items-center justify-center h-full text-center px-4"
               >
                 <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 flex items-center justify-center mb-4">
-                  <img src="/mypic.png" alt="Rohit" className="w-14 h-14 rounded-full" />
+                  <div className="relative w-14 h-14">
+                    <Image
+                      src="/mypic.png"
+                      alt="Rohit"
+                      width={56}
+                      height={56}
+                      className="rounded-full object-cover"
+                    />
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Hi! I'm Rohit's AI</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Hi! I&apos;m Rohit&apos;s AI</h3>
                 <p className="text-slate-400 text-sm mb-6">Ask me anything about my experience, skills, or projects!</p>
               </motion.div>
             )}
