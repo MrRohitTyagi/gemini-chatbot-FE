@@ -9,10 +9,10 @@ import { Info } from "lucide-react";
 const InfoIcon = () => {
   return (
     <Popover className="w-full">
-      <PopoverTrigger>
-        <Info size="24px" color="white" />
+      <PopoverTrigger className="p-1.5 sm:p-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600/30 transition-all duration-200">
+        <Info size="16px" className="sm:w-[18px] sm:h-[18px] text-slate-300" />
       </PopoverTrigger>
-      <PopoverContent className="bg-main-screen text-white">
+      <PopoverContent className="bg-slate-800/90 border border-slate-700/50 backdrop-blur-sm text-white shadow-xl">
         <ol className="space-y-2">
           <li className="text-[14px]">
             1: Knowledgeable : Equipped with information about my preferences

@@ -31,9 +31,10 @@ const Suggestions = ({ setchats, chats, handleSendMessage }) => {
           key={index}
           className={
             getchatCss("suggestion") +
-            `opacity-50 drop-shadow-lg shadow-violet-700 text-nowrap w-full md:w-auto cursor-pointer
+            ` opacity-70 text-nowrap w-full md:w-auto cursor-pointer
             transition-all duration-300 ease-in-out
-             hover:opacity-100`
+            hover:opacity-100 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20
+            hover:border-blue-400/50`
           }
         >
           {sug}

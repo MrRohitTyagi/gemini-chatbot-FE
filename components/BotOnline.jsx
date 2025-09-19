@@ -42,26 +42,12 @@ const BotOnline = () => {
     />
   ) : (
     <div
-      className=""
-      style={{
-        border: `1px solid ${state === stateTypes.online ? "green" : "red"}`,
-        borderRadius: "5px",
-        padding: "2px 5px",
-        display: "flex",
-        alignItems: "center",
-        gap: "5px",
-
-        fontSize: "12px",
-        color: "white",
-      }}
-    >
-      {state === stateTypes.online ? (
-        <CheckCircle color="green" size="1rem" />
-      ) : (
-        <BatteryWarning color="red" size="1rem" />
-      )}
-      {state === stateTypes.online ? "online" : "offline"}
-    </div>
+      className={`w-3 h-3 rounded-full transition-all duration-200 ${
+        state === stateTypes.online
+          ? 'bg-emerald-400 shadow-lg shadow-emerald-400/50'
+          : 'bg-red-400 shadow-lg shadow-red-400/50'
+      }`}
+    />
   );
 };
 
